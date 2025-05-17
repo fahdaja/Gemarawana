@@ -3,62 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halaman Login</title>
+  <title>Keanggotaan</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white min-h-screen">
-  <!-- Navbar -->
-  <header class="flex space-x-5 items-center justify-between p-20 py-4 bg-white shadow">
-    <img src="images/logo GR.png" alt="Logo" class="w-12 h-12" />
-    <nav>
-      <ul class="flex space-x-5 text-sm font-medium">
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/homepage">Home</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/halamankegiatan">Halaman Kegiatan</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/galerikegiatan">Galeri</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/artikel">Artikel</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/keanggotaan">Keanggotaan</a></li>
-      </ul>
-    </nav>
+<body class="bg-white">
+
+  <!-- Navbar (tidak diubah sesuai permintaan) -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <img src="images/logo GR.png" alt="Logo MAPALA GEMARAWANA" class="w-12 h-12" />
+      <nav>
+        <ul class="flex space-x-6 font-semibold text-gray-700">
+          <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+          <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+          <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
+          <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+          <li><a href="/keanggotaan" class="text-blue-600 border-b-2 border-blue-600 pb-1">Keanggotaan</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main class="px-4 py-10">
-    <div>
-        <h1 class="text-center text-xl font-semibold mb-10">Keanggotaan</h1>
+
+  <!-- Main Section -->
+  <main class="py-16 px-4 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="text-4xl font-bold text-gray-800 mb-6">Keanggotaan</h1>
+      <p class="text-gray-600 mb-12">
+        Halaman ini menampilkan informasi mengenai status keanggotaan dalam organisasi, yang terbagi menjadi dua kategori: <strong>Anggota Muda</strong> dan <strong>Anggota Penuh</strong>. Melalui halaman ini, pengunjung dapat melihat jumlah anggota aktif di setiap kategori dan mengakses detail masing-masing anggota. Fitur pengelolaan keanggotaan juga disediakan agar administrator dapat dengan mudah memperbarui data keanggotaan sesuai kebutuhan organisasi. Dengan sistem ini, manajemen anggota menjadi lebih efisien, transparan, dan terstruktur.
+      </p>
+
+      <!-- Kartu Anggota -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 px-4">
+        <!-- Anggota Muda -->
+        <div class="bg-gray-50 hover:bg-blue-50 transition duration-300 rounded-xl p-6 shadow-md">
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">ANGGOTA MUDA</h3>
+          <p class="text-5xl font-bold text-blue-600">{{ $jumlahAnggotaMuda }}</p>
+          <a href="{{ route('detail.anggota.muda') }}" class="inline-block mt-4 text-blue-500 font-medium hover:underline">
+            Lihat anggota
+          </a>
+        </div>
+
+        <!-- Anggota Penuh -->
+        <div class="bg-gray-50 hover:bg-blue-50 transition duration-300 rounded-xl p-6 shadow-md">
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">ANGGOTA PENUH</h3>
+          <p class="text-5xl font-bold text-blue-600">{{ $jumlahAnggotaPenuh }}</p>
+          <a href="{{ route('detail.anggota.penuh') }}" class="inline-block mt-4 text-blue-500 font-medium hover:underline">
+            Lihat anggota
+          </a>
+        </div>
+      </div>
+
+      <!-- Tombol Atur -->
+      <a href="/login">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition">
+          Atur anggota
+        </button>
+      </a>
     </div>
-
-    <div class="flex justify-center text-center gap-8 mb-6">
-    <!-- Anggota Muda -->
-    <div class="bg-gray-100 rounded-md px-8 py-6 w-45">
-      <p class="text-sm font-semibold mb-2 ">ANGGOTA MUDA</p>
-      <p class="text-3xl font-bold mb-2 ">16</p>
-      <button class="text-sm font-medium underline"><a href="" class="hover:text-blue-500">Lihat anggota</a></button>
-    </div>
-
-    <!-- Anggota Penuh -->
-    <div class="bg-gray-100 rounded-md px-8 py-6 w-45">
-      <p class="text-sm font-semibold mb-2 ">ANGGOTA PENUH</p>
-      <p class="text-3xl font-bold mb-2 ">72</p>
-      <button class="text-sm font-medium underline "><a href="" class="hover:text-blue-500">Lihat anggota</a></button>
-    </div>
-  </div>
-
-  <!-- Deskripsi -->
-  <div class="max-w-xl mx-auto text-sm px-3 mb-8 justify-center">
-    <p>
-      Lorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sumLorem ip sum
-    </p>
-  </div>
-
-    
-  <!-- Tombol Atur -->
-  <div class="flex justify-center mt-8">
-  <button class="relative bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-sm font-semibold shadow-md transition duration-200 ease-in-out"><a href="/admin">Atur anggota</a>
-    
-  </button>
-</div>
-
-
   </main>
- 
-</body>
 
+</body>
 </html>

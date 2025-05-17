@@ -1,25 +1,28 @@
 
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halaman Login</title>
+  <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white min-h-screen">
   <!-- Navbar -->
-  <header class="flex space-x-5 items-center justify-between p-20 py-4 bg-white shadow">
-    <img src="images/logo GR.png" alt="Logo" class="w-12 h-12" />
-    <nav>
-      <ul class="flex space-x-5 text-sm font-medium">
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/homepage">Home</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/halamankegiatan">Halaman Kegiatan</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/galerikegiatan">Galeri</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/artikel">Artikel</a></li>
-        <li class="hover:text-blue-500 cursor-pointer"><a href="/keanggotaan">Keanggotaan</a></li>
-      </ul>
-    </nav>
+ <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <img src="images/logo GR.png" alt="Logo MAPALA GEMARAWANA" class="w-12 h-12" />
+      <nav>
+        <ul class="flex space-x-6 font-semibold text-gray-700">
+          <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+          <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+          <li><a href="/galerikegiatan" class="hover:text-blue-600 ">Galeri</a></li>
+          <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+          <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
   <!-- Login Form -->
@@ -27,8 +30,16 @@
   <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-blue-100">
     <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Admin</h2>
     
-    <form onsubmit="return validateForm()" class="space-y-5">
+    <form method="POST" action="{{ route('login') }}" onsubmit="return validateForm()" class="space-y-5">
+      @csrf
       <!-- Username -->
+       @if ($errors->any())
+            <div class="mb-4 text-red-500 text-sm">
+                @foreach ($errors->all() as $error)
+                    <div>{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
       <div>
         <label for="username" class="block mb-1 text-sm font-semibold text-gray-700">Username</label>
         <div class="flex items-center border border-gray-300 rounded-md px-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-300">

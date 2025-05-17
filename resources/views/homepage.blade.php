@@ -15,26 +15,31 @@
 </head>
 
 <body class="bg-gray-900 text-gray-100">
-    <header class="bg-white text-gray-900 py-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center px-6 ">
-        <div class="flex items-center space-x-3 ">
-            <img src="{{ asset('images/Logo GR.png') }}" alt="Logo" class="h-10">
-            <span class="text-xl font-bold">GEMARAWANA</span>
-        </div>
-        <nav>
-            <ul class="flex space-x-5 ">
-                <li><a href="/homepage" class="hover:text-blue-500 cursor-pointer">Home</a></li>
-                <li><a href="/halamankegiatan" class="hover:text-blue-500 cursor-pointer">Halaman kegiatan</a></li>
-                <li><a href="/galerikegiatan" class="hover:text-blue-500 cursor-pointer">Galeri</a></li>
-                <li><a href="/artikel" class="hover:text-blue-500 cursor-pointer">Artikel</a></li>
-                <li><a href="/keanggotaan" class="hover:text-blue-500 cursor-pointer">Keanggotaan</a></li>
-            </ul>
-        </nav>
+    <header class="bg-white text-gray-900 shadow-md w-full">
+  <div class="flex justify-between items-center px-6 py-4 w-full">
+    <!-- Kiri: Logo dan Judul -->
+    <div class="flex items-center space-x-3">
+      <img src="{{ asset('images/Logo GR.png') }}" alt="Logo" class="h-12 w-auto object-contain">
+      <span class="text-xl md:text-1xl font-bold tracking-wide">GEMARAWANA</span>
     </div>
-    </header>
+
+    <!-- Kanan: Navigasi -->
+    <nav>
+      <ul class="flex space-x-4 md:space-x-6 text-sm md:text-base font-medium">
+        <li><a href="/" class="text-blue-600 border-b-2 border-blue-600 pb-1">Home</a></li>
+        <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+        <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
+        <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+        <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
 
     <section class="relative">
-        <img src="{{ asset('images/Diksar.jpg') }}" alt="Banner" class="w-full h-96 object-cover">
+        <img src="{{ asset('images/Diksar.jpg') }}" alt="Banner" class="w-full h-96 object-cover ">
         <h1 class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-red-600 text-shadow">GEMARAWANA</h1>
     </section>
 
@@ -47,22 +52,22 @@
     </section>
 
     <section class="container mx-auto py-12 px-6">
-        <h2 class="text-2xl font-bold text-center mb-6">Divisi dalam GEMARAWANA</h2>
+        <h2 class="text-2xl font-bold text-center mb-6">Pengenalan Divisi Gemarawana</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-                <img src="{{ asset('images/Orad.jpg') }}" alt="Divisi 1" class="w-60">
-                <p class="mt-2">Orad (Divisi Navigasi dan Search & Rescue)</p>
+                <img src="{{ asset('images/Orad.png') }}" alt="Divisi 1" class="mx-auto">
+                <p class="mt-2">Orad</p>
             </div>
             <div>
-                <img src="{{ asset('images/Rock Climbing1.jpg') }}" alt="Divisi 2" class="mx-auto">
+                <img src="{{ asset('images/Rockclimbing.png') }}" alt="Divisi 2" class="mx-auto">
                 <p class="mt-2">Rock Climbing</p>
             </div>
             <div>
-                <img src="{{ asset('images/Gunung Hutan.jpg') }}" alt="Divisi 3" class="mx-auto">
+                <img src="{{ asset('images/Gununghutan.png') }}" alt="Divisi 3" class="mx-auto">
                 <p class="mt-2">Gunung Hutan</p>
             </div>
             <div>
-                <img src="{{ asset('images/Jurnalistik.jpg') }}" alt="Divisi 4" class="mx-auto">
+                <img src="{{ asset('images/Jurnalistik.png') }}" alt="Divisi 4" class="mx-auto">
                 <p class="mt-2">Jurnalistik</p>
             </div>
         </div>
@@ -79,7 +84,7 @@
         <div class="container mx-auto text-sm">
             <h1 class="text-lg justify-center text-center">Contact Us</h1>
             <p><a href="https://wa.me/6281256478847" class="hover:text-blue-500 cursor-pointer justify-center  py-2"> | Whatsapp | </a><a href="https://www.instagram.com/gemarawana?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="hover:text-blue-500 cursor-pointer justify-center  py-2">| Instagram |</a></p>
-            <p class="text-center space-y-2 font-medium ">©Copy right by Anggota muda</p>
+            <i class="text-center space-y-2 font-medium ">© 2025 GEMARAWANA | Anggota muda</>
             <p>Muhammad Fahd Al Islam Al Bantani x Muhammad Ansyari Farhan</p>
         </div>
     </footer>
