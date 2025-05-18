@@ -107,11 +107,12 @@ if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
     public function update(Request $request, $id)
     {
         $request->validate([
-             'judul' => 'required|string|max:255',
+        'judul' => 'required|string|max:255',
         'deskripsi' => 'required|string',
         'provinsi_id' => 'required|exists:provinsi,id',
         'kota_id' => 'required|exists:kota,id',
         'image_path' => 'nullable|image|max:2048',
+        'lokasi' => 'required|string',
         ]);
 
         $artikel = Artikel::findOrFail($id);

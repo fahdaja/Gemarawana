@@ -11,19 +11,46 @@
 <body class="bg-white min-h-screen">
   <!-- Navbar -->
  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <img src="images/logo GR.png" alt="Logo MAPALA GEMARAWANA" class="w-12 h-12" />
-      <nav>
-        <ul class="flex space-x-6 font-semibold text-gray-700">
-          <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
-          <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
-          <li><a href="/galerikegiatan" class="hover:text-blue-600 ">Galeri</a></li>
-          <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
-          <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
-        </ul>
-      </nav>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+      <img src="{{ asset('images/Logo GR.png') }}" alt="Logo" class="h-12 w-auto object-contain">
+      <span class="text-xl md:text-1xl font-bold tracking-wide">GEMARAWANA</span>
     </div>
-  </header>
+
+    <!-- Hamburger Icon (Mobile) -->
+    <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block">
+      <ul class="flex space-x-6 font-semibold text-gray-700">
+        <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+        <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+        <li><a href="/galerikegiatan" class="hover:text-blue-600">Galeri</a></li>
+        <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+        <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+    <ul class="flex flex-col space-y-3 font-semibold text-gray-700 bg-white p-4 rounded shadow">
+      <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+      <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+      <li><a href="/galerikegiatan" class="hover:text-blue-600">Galeri</a></li>
+      <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+      <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+    </ul>
+  </div>
+</header>
+
 
   <!-- Login Form -->
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
@@ -88,7 +115,18 @@
         </button>
       </div>
     </form>
-
-    <script src="{{ asset('js/login.js') }}"></script>
   </div>
 </div>
+<script>
+  // responsive menu toggle
+  const toggleButton = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  toggleButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+<script src="{{ asset('js/login.js') }}"></script>
+</body>
+</html>

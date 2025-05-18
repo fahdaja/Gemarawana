@@ -21,23 +21,23 @@
       <table class="min-w-full border border-gray-200 rounded-md shadow-sm">
         <thead class="bg-gray-100 text-gray-700 text-sm font-semibold">
           <tr>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">No</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Nama</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">NIM</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">No Anggota</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Jurusan</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Status</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">No</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Nama</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">NIM</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">No Anggota</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Jurusan</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Status</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($anggotaPenuh as $index => $anggota)
           <tr class="{{ $index % 2 == 0 ? 'bg-white' : 'bg-gray-50' }}">
-            <td class="px-6 py-4 border-b border-gray-200">{{ $index + 1 }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->nama }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->nim }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->no_anggota }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->jurusan }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $index + 1 }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->nama }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->nim }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->no_anggota }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->jurusan }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold
                 {{ $anggota->status == 'aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                 {{ ucfirst($anggota->status) }}
@@ -57,23 +57,23 @@
       <table class="min-w-full border border-gray-200 rounded-md shadow-sm">
         <thead class="bg-gray-100 text-gray-700 text-sm font-semibold">
           <tr>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">No</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Nama</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">NIM</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">No Anggota</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Jurusan</th>
-            <th class="px-6 py-3 border-b border-gray-300 text-left">Status</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">No</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Nama</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">NIM</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">No Anggota</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Jurusan</th>
+            <th class="px-6 py-3 border-b border-gray-300 text-center">Status</th>
           </tr>
         </thead>
         <tbody>
           @foreach ($alumni as $index => $anggota)
           <tr class="{{ $index % 2 == 0 ? 'bg-white' : 'bg-gray-50' }}">
-            <td class="px-6 py-4 border-b border-gray-200">{{ $index + 1 }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->nama }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->nim }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->no_anggota }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{ $anggota->jurusan }}</td>
-            <td class="px-6 py-4 border-b border-gray-200">
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $index + 1 }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->nama }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->nim }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->no_anggota }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{ $anggota->jurusan }}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold
                 {{ $anggota->status == 'aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                 {{ ucfirst($anggota->status) }}

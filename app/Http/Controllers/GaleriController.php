@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Galery;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GaleriController extends Controller
 {
@@ -39,35 +40,30 @@ class GaleriController extends Controller
 {
     $request->validate([
         'judul' => 'required',
-        'image_base64' => 'required|string',
+        'image_path' => 'required|string',
     ]);
 
-    $imageData = $request->input('image_base64');
+    $base64Image = $request->input('image_path');
 
     // Extract base64 string tanpa prefix "data:image/jpeg;base64,"
-    if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
-        $imageData = substr($imageData, strpos($imageData, ',') + 1);
+    if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
+        $image = substr($base64Image, strpos($base64Image, ',') + 1);
+        $image = str_replace(' ', '+', $image);
         $type = strtolower($type[1]); // jpg, png, dll
 
         if (!in_array($type, ['jpg', 'jpeg', 'png'])) {
-            return back()->withErrors(['image_base64' => 'Format gambar tidak didukung.']);
+            return back()->withErrors(['image_path' => 'Format gambar tidak didukung.']);
         }
 
-        $imageData = base64_decode($imageData);
-        if ($imageData === false) {
-            return back()->withErrors(['image_base64' => 'Data gambar tidak valid.']);
-        }
-    } else {
-        return back()->withErrors(['image_base64' => 'Format gambar tidak valid.']);
-    }
-
-    // Simpan file ke storage/public/galeri dengan nama unik
-    $filename = 'galeri/' . uniqid() . '.' . $type;
-    Storage::disk('public')->put($filename, $imageData);
+         $imageName = 'galeri/' . Str::random(10) . '.' . $type;
+       Storage::disk('public')->put($imageName, base64_decode($image));
+} else {
+    return back()->withErrors(['image_path' => 'Gambar tidak valid.']);
+}
 
     Galery::create([
         'judul' => $request->judul,
-        'image_path' => $filename,
+        'image_path' => $imageName,
     ]);
 
     return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil ditambahkan ke galeri.');

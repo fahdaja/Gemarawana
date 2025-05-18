@@ -18,19 +18,46 @@
 <body class="bg-gray-100 text-gray-800">
   <!-- Header -->
    <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <img src="images/logo GR.png" alt="Logo MAPALA GEMARAWANA" class="w-12 h-12" />
-      <nav>
-        <ul class="flex space-x-6 font-semibold text-gray-700">
-          <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
-          <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
-          <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
-          <li><a href="/artikelkegiatan" class="text-blue-600 border-b-2 border-blue-600 pb-1">Artikel</a></li>
-          <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
-        </ul>
-      </nav>
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <div class="flex items-center space-x-3">
+      <img src="{{ asset('images/Logo GR.png') }}" alt="Logo" class="h-12 w-auto object-contain">
+      <span class="text-xl md:text-1xl font-bold tracking-wide">GEMARAWANA</span>
     </div>
-  </header>
+
+    <!-- Hamburger menu (mobile only) -->
+    <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:block">
+      <ul class="flex space-x-6 font-semibold text-gray-700">
+        <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+        <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+        <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
+        <li><a href="/artikelkegiatan" class="text-blue-600 border-b-2 border-blue-600 pb-1">Artikel</a></li>
+        <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+    <ul class="flex flex-col space-y-3 font-semibold text-gray-700 bg-white p-4 rounded shadow">
+      <li><a href="/" class="hover:text-blue-600 transition">Home</a></li>
+      <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+      <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
+      <li><a href="/artikelkegiatan" class="text-blue-600 border-b-2 border-blue-600 pb-1">Artikel</a></li>
+      <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+    </ul>
+  </div>
+</header>
+
 
   <main class="px-4 py-10">
     <div>
@@ -80,7 +107,7 @@
 <div class="artikel-list max-w-6xl mx-auto space-y-6">
   @foreach ($artikel as $item)
     <div class="artikel-item bg-white p-6 grid grid-cols-1 sm:grid-cols-2 gap-7 rounded-2xl" data-id="{{ $item->id }}">
-      <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->judul }}" class="object-cover rounded-lg aspect-[16/9]" />
+      <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->judul }}" class="object-cover rounded-lg aspect-[16/9] mt-5" />
       <div class="text-justify px-6 sm:px-10 flex flex-col justify-between">
         <div>
           <h2 class="text-xl font-semibold text-gray-700 py-4">{{ $item->judul }}</h2>
@@ -96,6 +123,9 @@
     </div>
   @endforeach
 </div>
+<p id="notFoundMessage" class="text-center text-gray-500 mt-6 hidden">
+  Artikel tidak ditemukan.
+</p>
 
 <!-- Pagination Laravel -->
 <div class="flex justify-center mt-10">
@@ -116,7 +146,7 @@
     >&times;</button>
 
     <!-- Container gambar dengan aspect ratio fixed 9:16 -->
-   <div class="col-span-1 row-span-2 rounded overflow-hidden aspect-[16/9]">
+   <div class="col-span-1 row-span-2 rounded overflow-hidden aspect-[16/9] mt-2">
   <img
     id="popupImage"
     src=""
@@ -202,9 +232,13 @@
   // ====== SCRIPT SEARCH RESPONSIF ======
   const searchInput = document.getElementById('searchInput');
   const artikelItems = document.querySelectorAll('.artikel-item');
+  const notFoundMessage = document.getElementById('notFoundMessage');
 
   searchInput.addEventListener('input', () => {
     const keyword = searchInput.value.toLowerCase().trim();
+    
+
+     let hasMatch = false;
 
     if (keyword === '') {
       // Jika kosong, tampilkan semua artikel
@@ -214,16 +248,26 @@
         const judul = item.querySelector('h2')?.textContent.toLowerCase() || '';
         const deskripsi = item.querySelector('p.line-clamp-10')?.textContent.toLowerCase() || '';
 
-        if (judul.includes(keyword) || deskripsi.includes(keyword)) {
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+        const isMatch = judul.includes(keyword) || deskripsi.includes(keyword);
+      item.style.display = isMatch ? '' : 'none';
+      
+      if (isMatch) hasMatch = true;
+    });
+   if (hasMatch) {
+      notFoundMessage.classList.add('hidden');
+    } else {
+      notFoundMessage.classList.remove('hidden');
     }
-  });
+  }
+});
 </script>
 
+<script>
+  // Responsive menu toggle
+  document.getElementById('menu-toggle').addEventListener('click', function () {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+</script>
 
 </body>
 </html>

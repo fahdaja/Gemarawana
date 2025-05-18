@@ -20,7 +20,7 @@ class ProvinsiSeeder extends Seeder
         ];
 
         foreach ($provinsi as $p) {
-            Provinsi::create(['nama' => $p]);
+            Provinsi::updateOrCreate(['nama' => $p]);
         }
     }
 }

@@ -5,22 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Galeri</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+<link  href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 <!-- Header -->
 <nav class="bg-white shadow mb-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center">
-      <h1 class="text-xl font-bold text-blue-600 text-center">Admin</h1>
-      <div class="flex text-right justify-end items-center space-x-2 py-5">
-        <a href="/admingaleri" class="text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2 text-sm font-medium">Kelola galeri</a>
-        <a href="/adminartikel" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola artikel</a>
-        <a href="/adminkeanggotaan" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola keanggotaan</a>
-        <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+    <div class="flex justify-between items-center py-5">
+      <!-- Judul -->
+      <h1 class="text-xl font-bold text-blue-600">Admin</h1>
+
+      <!-- Hamburger Button (only on small screens) -->
+      <button
+        id="menu-btn"
+        class="md:hidden flex items-center px-3 py-2 border border-gray-700 rounded text-gray-700 hover:text-blue-600 hover:border-blue-600"
+        aria-label="Toggle menu"
+      >
+        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 3h20v2H0zM0 9h20v2H0zM0 15h20v2H0z" />
+        </svg>
+      </button>
+
+      <!-- Menu Desktop -->
+      <div
+        id="menu"
+        class="hidden md:flex space-x-4 items-center text-sm font-medium text-gray-700"
+      >
+        <a href="/admingaleri" class="text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2">Kelola galeri</a>
+        <a href="/adminartikel" class="hover:text-blue-600 px-3 py-2 rounded-md">Kelola artikel</a>
+        <a href="/adminkeanggotaan" class="hover:text-blue-600 px-3 py-2 rounded-md">Kelola keanggotaan</a>
+        <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md">Logout</a>
       </div>
+    </div>
+
+    <!-- Menu Mobile (hidden initially) -->
+    <div id="mobile-menu" class="md:hidden hidden flex-col space-y-2 pb-5">
+      <a href="/admingaleri" class="block text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2 text-sm font-medium">Kelola galeri</a>
+      <a href="/adminartikel" class="block hover:text-blue-600 px-3 py-2 rounded-md text-gray-700 text-sm font-medium">Kelola artikel</a>
+      <a href="/adminkeanggotaan" class="block hover:text-blue-600 px-3 py-2 rounded-md text-gray-700 text-sm font-medium">Kelola keanggotaan</a>
+      <a href="/logout" class="block bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
     </div>
   </div>
 </nav>
@@ -34,25 +58,18 @@
   <h2 class="text-lg font-semibold mb-4">Tambah Foto</h2>
  <form id="upload-form" action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-4">
   @csrf
-
   <!-- Judul -->
   <div class="md:col-span-2">
     <label for="judul" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-    <input name="judul" id="judul" type="text" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: Tebing Citatah, Bandung" required>
+    <input name="judul" id="judul" type="text" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh : Pendidikan Dasar 2023" required>
   </div>
 
   <!-- Input Gambar -->
   <div class="md:col-span-2">
     <label for="inputImage" class="block text-sm font-medium text-gray-700 mb-1">Pilih Gambar</label>
     <input type="file" id="inputImage" accept="image/*" class="w-full border border-gray-300 rounded-md p-2 bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
-  </div>
-
-  <!-- Preview Gambar untuk Crop -->
-  <div id="crop-container" class="hidden md:col-span-2 mt-4 rounded border border-dashed border-gray-400 p-4 max-w-2xl mx-auto">
-    <p class="text-center text-sm text-gray-500 mb-2">Crop Gambar di bawah ini:</p>
-    <div class="w-full max-h-[400px] overflow-hidden rounded">
-      <img id="image" class="max-w-full h-auto mx-auto" />
-    </div>
+    <img id="imagePreview" class="hidden max-w-full rounded shadow border" alt="Preview Gambar">
+    <input type="hidden" name="image_path" id="croppedImage">
   </div>
 
   <!-- Tombol Submit -->
@@ -92,72 +109,74 @@
 </main>
 
 <!-- JavaScript -->
-<script>
-  const inputImage = document.getElementById('inputImage');
-  const imageElement = document.getElementById('image');
-  const cropContainer = document.getElementById('crop-container');
-  const form = document.getElementById('upload-form');
-  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  let cropper;
 
-  inputImage.addEventListener('change', (e) => {
+
+<script>
+  let cropper;
+  const imageInput = document.getElementById('inputImage');
+  const imagePreview = document.getElementById('imagePreview');
+  const croppedImageInput = document.getElementById('croppedImage');
+  const form = document.getElementById('upload-form');
+
+  imageInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = function(event) {
-      imageElement.src = event.target.result;
-      cropContainer.classList.remove('hidden');
+    reader.onload = function (event) {
+      imagePreview.src = event.target.result;
+      imagePreview.classList.remove('hidden');
 
+      // Destroy cropper instance jika sudah ada
       if (cropper) cropper.destroy();
 
-      cropper = new Cropper(imageElement, {
-        aspectRatio: 1, // bebas bisa diganti
+      // Inisialisasi cropper di gambar yang sudah muncul
+      cropper = new Cropper(imagePreview, {
+        aspectRatio: 16 / 9,       // Sesuaikan sesuai kebutuhan
         viewMode: 1,
         autoCropArea: 1,
-        responsive: true
+        movable: true,
+        zoomable: true,
+        rotatable: false,
+        scalable: false,
+        cropBoxResizable: true,
       });
     };
     reader.readAsDataURL(file);
   });
 
   form.addEventListener('submit', function (e) {
-  e.preventDefault();
+    // Jika cropper ada, cegah submit dulu, ambil hasil crop, lalu submit
+    if (cropper) {
+      e.preventDefault();
 
-  if (!cropper) {
-    alert("Pilih gambar terlebih dahulu!");
-    return;
-  }
+      // Dapatkan canvas hasil crop dengan ukuran output yang diinginkan
+      const canvas = cropper.getCroppedCanvas({
+        width: 800,    // sesuaikan ukuran hasil crop
+        height: 450,
+      });
 
-  // Ambil hasil crop sebagai base64 string
-  const base64Image = cropper.getCroppedCanvas().toDataURL('image/jpeg');
-
-  // Buat FormData baru
-  const formData = new FormData(form);
-
-  // Hapus file input supaya tidak terkirim file fisik
-  formData.delete('image_path');
-
-  // Kirim base64 string ke key image_base64 (sesuai controller yang aku berikan)
-  formData.append('image_base64', base64Image);
-
-  fetch(form.action, {
-    method: 'POST',
-    headers: {
-      'X-CSRF-TOKEN': csrfToken,
-    },
-    body: formData
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Upload gagal");
-    return response.text();
-  })
-  .then(() => window.location.reload())
-  .catch(error => alert(error.message));
-
-});
+      // Ubah canvas ke blob lalu ke base64, masukkan ke input hidden
+      canvas.toBlob(function (blob) {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          croppedImageInput.value = reader.result; // base64 image
+          form.submit();  // submit ulang form setelah isi hidden input siap
+        };
+        reader.readAsDataURL(blob);
+      });
+    }
+  });
 </script>
 
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
 
 </body>
 </html>

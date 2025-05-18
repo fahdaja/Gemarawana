@@ -14,12 +14,12 @@ class KotaSeeder extends Seeder
         $data = [
         'Aceh' => ['Banda Aceh', 'Lhokseumawe'],
         'Sumatera Utara' => ['Medan', 'Binjai'],
-        'Jawa Barat' => ['Bandung', 'Bogor', 'Bekasi'],
+        'Jawa Barat' => ['Bandung', 'Bogor', 'Bekasi', 'Garut','Sumedang'],
         'DKI Jakarta' => ['Jakarta Barat', 'Jakarta Selatan', 'Jakarta Timur', 'Jakarta Utara', 'Jakarta Pusat'],
-        'Jawa Tengah' => ['Semarang', 'Solo', 'Magelang'],
+        'Jawa Tengah' => ['Semarang', 'Solo', 'Magelang', 'Tumanggung'],
         'Jawa Timur' => ['Surabaya', 'Malang', 'Kediri'],
         'Bali' => ['Denpasar', 'Singaraja'],
-        'Kalimantan Timur' => ['Balikpapan', 'Samarinda'],
+        'Kalimantan Timur' => ['Balikpapan', 'Samarinda','Bontang'],
         'Sulawesi Selatan' => ['Makassar', 'Parepare'],
         'Papua' => ['Jayapura', 'Wamena']
         ];
@@ -27,7 +27,7 @@ class KotaSeeder extends Seeder
         foreach ($data as $provinsi => $kotas) {
             $prov = Provinsi::where('nama', $provinsi)->first();
             foreach ($kotas as $kota) {
-                Kota::create([
+                Kota::updateOrCreate([
                     'provinsi_id' => $prov->id,
                     'nama' => $kota
                 ]);

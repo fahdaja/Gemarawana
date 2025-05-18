@@ -51,14 +51,6 @@
                     @endif
                 </div>
 
-                <!-- Lokasi -->
-                <div>
-                    <label for="api_lokasi" class="block text-lg font-medium text-gray-700">Lokasi</label>
-                    <textarea name="api_lokasi" id="api_lokasi" rows="4"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="Tulis API lokasi...">{{ old('api_lokasi', $galeri->api_lokasi) }}</textarea>
-                </div>
-
                 <!-- Submit Button -->
                 <div class="flex justify-center">
                     <button type="submit"

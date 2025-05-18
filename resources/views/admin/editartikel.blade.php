@@ -7,10 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
+    
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10 relative">
 
-    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
+    <a href="{{ route('admin.artikel.index') }}"
+       class="absolute top-4 right-4 text-gray-500 hover:text-red-600 p-2 rounded-full transition duration-200"
+       title="Batal / Kembali">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+             stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </a>
         <h2 class="text-3xl font-bold text-gray-800 mb-8">Edit Artikel</h2>
-
+        
         <form action="{{ route('admin.artikel.update', $artikel->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
@@ -72,8 +83,6 @@
                         class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     Update Artikel
                 </button>
-                <a href="{{ route('admin.artikel.index') }}"
-                   class="text-gray-600 hover:underline text-sm">Batal</a>
             </div>
         </form>
     </div>

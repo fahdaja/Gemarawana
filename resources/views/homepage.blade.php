@@ -23,8 +23,19 @@
       <span class="text-xl md:text-1xl font-bold tracking-wide">GEMARAWANA</span>
     </div>
 
-    <!-- Kanan: Navigasi -->
-    <nav>
+    <!-- Tombol Hamburger (Mobile) -->
+    <div class="md:hidden">
+      <button id="menu-toggle" class="text-gray-900 focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigasi (Desktop) -->
+    <nav class="hidden md:block">
       <ul class="flex space-x-4 md:space-x-6 text-sm md:text-base font-medium">
         <li><a href="/" class="text-blue-600 border-b-2 border-blue-600 pb-1">Home</a></li>
         <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
@@ -34,7 +45,19 @@
       </ul>
     </nav>
   </div>
+
+  <!-- Navigasi (Mobile Dropdown) -->
+  <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+    <ul class="flex flex-col space-y-2 text-sm font-medium bg-white text-gray-900 p-4 rounded shadow-lg">
+      <li><a href="/" class="text-blue-600">Home</a></li>
+      <li><a href="/rangkaiankegiatan" class="hover:text-blue-600 transition">Rangkaian Kegiatan</a></li>
+      <li><a href="/galerikegiatan" class="hover:text-blue-600 transition">Galeri</a></li>
+      <li><a href="/artikelkegiatan" class="hover:text-blue-600 transition">Artikel</a></li>
+      <li><a href="/keanggotaan" class="hover:text-blue-600 transition">Keanggotaan</a></li>
+    </ul>
+  </div>
 </header>
+
 
 
 
@@ -88,5 +111,13 @@
             <p>Muhammad Fahd Al Islam Al Bantani x Muhammad Ansyari Farhan</p>
         </div>
     </footer>
+
+    <script>
+  document.getElementById('menu-toggle').addEventListener('click', function () {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  });
+</script>
+
 </body>
 </html>

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Artikel</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Tambahkan di dalam <head> -->
 <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
@@ -13,18 +12,43 @@
 
   <!-- Navbar -->
   <nav class="bg-white shadow mb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center py-5">
-        <h1 class="text-xl font-bold text-blue-600">Admin</h1>
-        <div class="flex space-x-2">
-          <a href="/admingaleri" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola galeri</a>
-          <a href="/adminartikel" class="text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2  text-sm font-medium">Kelola artikel</a>
-          <a href="/adminkeanggotaan" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola keanggotaan</a>
-          <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
-        </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-5">
+      <!-- Judul -->
+      <h1 class="text-xl font-bold text-blue-600">Admin</h1>
+
+      <!-- Hamburger Button (hanya muncul di layar kecil) -->
+      <button
+        id="menu-btn"
+        class="md:hidden flex items-center px-3 py-2 border border-gray-700 rounded text-gray-700 hover:text-blue-600 hover:border-blue-600"
+        aria-label="Toggle menu"
+      >
+        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 3h20v2H0zM0 9h20v2H0zM0 15h20v2H0z" />
+        </svg>
+      </button>
+
+      <!-- Menu Desktop -->
+      <div
+        id="menu"
+        class="hidden md:flex space-x-2 items-center text-sm font-medium"
+      >
+        <a href="/admingaleri" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md">Kelola galeri</a>
+        <a href="/adminartikel" class="text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2">Kelola artikel</a>
+        <a href="/adminkeanggotaan" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md">Kelola keanggotaan</a>
+        <a href="/logout" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md">Logout</a>
       </div>
     </div>
-  </nav>
+
+    <!-- Menu Mobile (default hidden, muncul saat toggle) -->
+    <div id="mobile-menu" class="md:hidden hidden flex-col space-y-2 pb-5">
+      <a href="/admingaleri" class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola galeri</a>
+      <a href="/adminartikel" class="block text-blue-600 border-b-2 border-blue-600 pb-1 px-3 py-2 text-sm font-medium">Kelola artikel</a>
+      <a href="/adminkeanggotaan" class="block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Kelola keanggotaan</a>
+      <a href="/logout" class="block bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md text-sm font-medium">Logout</a>
+    </div>
+  </div>
+</nav>
 
   <!-- Main Content -->
   <main class="max-w-5xl mx-auto p-6 space-y-8">
@@ -153,7 +177,7 @@
       provinsiSelect.addEventListener('change', function () {
         const provId = this.value;
         if (!provId) {
-          kotaSelect.innerHTML = '<option value="">Pilih Provinsi dulu</option>';
+          kotaSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
           lokasiInput.value = '';
           return;
         }
@@ -229,6 +253,15 @@ form.addEventListener('submit', function (e) {
     });
   }
 });
+</script>
+
+<script>
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
 </script>
 
 </body>
