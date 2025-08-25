@@ -284,12 +284,12 @@
                   d="M18.364 5.636l-1.414 1.414M5.636 18.364l-1.414-1.414M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7m0 0H9m3 0h3" />
               </svg>
-              Pertolongan Pertama
+              Gunung dan Hutan
             </h3>
             <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>Teknik penanganan luka, patah tulang, dan kondisi darurat</li>
-              <li>Penggunaan peralatan medis sederhana</li>
-              <li>Simulasi evakuasi dan bantuan medis</li>
+              <li></li>
+              <li></li>
+              <li></li>
             </ul>
           </li>
 
@@ -303,12 +303,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                   d="M3 10h2l.5 2h13l.5-2h2M12 14l-3 3m6 0l-3-3m0 6v-6" />
               </svg>
-              Survival
+              Jurnalistik
             </h3>
             <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>Membuat tempat berlindung dan mencari sumber air</li>
-              <li>Memasak di alam bebas dan penggunaan alat survival</li>
-              <li>Manajemen risiko dan mitigasi bahaya</li>
+              <li></li>
+              <li></li>
+              <li></li>
             </ul>
           </li>
         </ul>

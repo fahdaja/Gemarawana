@@ -87,7 +87,8 @@
       </a>
     </div>
   </main>
-
+<footer class="bg-white border-t mt-12 py-6 text-center text-gray-600 text-sm select-none"> © 2025 MAPALA GEMARAWANA |
+    All rights reserved </footer>
   <script>
     // responsive menu toggle
   document.getElementById('menu-toggle').addEventListener('click', function () {

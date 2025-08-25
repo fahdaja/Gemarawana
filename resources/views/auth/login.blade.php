@@ -57,16 +57,14 @@
   <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-blue-100">
     <h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Admin</h2>
     
+    @if ($errors->has('login'))
+  <div class="mb-4 text-red-500 text-sm">
+      {{ $errors->first('login') }}
+  </div>
+@endif
     <form method="POST" action="{{ route('login') }}" onsubmit="return validateForm()" class="space-y-5">
       @csrf
       <!-- Username -->
-       @if ($errors->any())
-            <div class="mb-4 text-red-500 text-sm">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
-        @endif
       <div>
         <label for="username" class="block mb-1 text-sm font-semibold text-gray-700">Username</label>
         <div class="flex items-center border border-gray-300 rounded-md px-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-300">
@@ -84,6 +82,9 @@
             required
           />
         </div>
+         @error('username')
+    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+  @enderror
       </div>
 
       <!-- Password -->
@@ -103,6 +104,9 @@
             required
           />
         </div>
+       @error('password')
+    <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+  @enderror
       </div>
 
       <!-- Submit -->
@@ -127,6 +131,24 @@
   });
 </script>
 
-<script src="{{ asset('js/login.js') }}"></script>
+<script>
+function validateForm() {
+  let username = document.getElementById("username").value.trim();
+  let password = document.getElementById("password").value.trim();
+
+  if (username === "") {
+    alert("Username wajib diisi.");
+    return false;
+  }
+
+  if (password === "") {
+    alert("Password tidak boleh kosong.");
+    return false;
+  }
+
+  return true;
+}
+</script>
+
 </body>
 </html>

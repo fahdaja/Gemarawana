@@ -132,6 +132,8 @@
   {{ $artikel->links('vendor.pagination.tailwind') }}
 </div>
   </main>
+  <footer class="bg-white border-t mt-12 py-6 text-center text-gray-600 text-sm select-none"> © 2025 MAPALA GEMARAWANA |
+    All rights reserved </footer>
 
 <div id="popup" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
   <div
@@ -164,7 +166,7 @@
       ></h2>
       <p
         id="popupDescription"
-        class="text-gray-700 overflow-auto max-h-48 pr-4 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 leading-relaxed"
+        class="text-gray-600 overflow-auto max-h-72 pr-4 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 leading-relaxed"
       ></p>
       <p
         id="popupLocation"
