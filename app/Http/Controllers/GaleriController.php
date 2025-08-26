@@ -40,27 +40,19 @@ class GaleriController extends Controller
 {
     $request->validate([
         'judul' => 'required',
-        'image_path' => 'required|image|mimes:jpeg,png,jpg,heic|max:5120',
+        'image_path' => 'required|image|mimes:jpeg,png,jpg,|max:5120',
+    ], [
+        'foto.required' => 'Foto wajib diupload.',
+        'foto.image' => 'File harus berupa gambar.',
+        'foto.mimes' => 'Format file tidak didukung. Gunakan jpeg, png, jpg.',
+        'foto.max' => 'Ukuran foto maksimal 5MB.',
     ]);
 
-    $file = $request->file('image_path');
-    $ext = strtolower($file->getClientOriginalExtension());
+  $path = $request->file('image_path')->store('galeri', 'public');
 
-   if ($ext === 'heic') {
-    $imagick = new \Imagick();
-    $imagick->readImage($file->getPathname());
-    $imagick->setImageFormat('png');
-
-     $imageName = 'galeri/' . Str::random(10) . '.png';
-        Storage::disk('public')->put($imageName, $imagick->getImageBlob());
-    } else {
-        // Simpan langsung jika bukan HEIC
-        $imageName = $file->store('galeri', 'public');
-    } 
-    
     Galery::create([
         'judul' => $request->judul,
-        'image_path' => $imageName,
+        'image_path' => $path,
     ]);
 
     return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil ditambahkan ke galeri.');

@@ -118,38 +118,54 @@
   const croppedImageInput = document.getElementById('croppedImage');
   const form = document.getElementById('upload-form');
 
-  inputImage.addEventListener('change', function (e) {
+  imageInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
-    if (file){
+    if (!file) return;
+
+    // ✅ Validasi hanya gambar
+    if (!file.type.startsWith('image/')) {
+      alert("Format file tidak didukung. Harap upload gambar (jpg, png, dll).");
+      imageInput.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      imagePreview.src = event.target.result;
+      imagePreview.classList.remove('hidden');
+
+      // Destroy cropper lama
+      if (cropper) cropper.destroy();
+
+      // Init cropper
+      cropper = new Cropper(imagePreview, {
+        aspectRatio: 16 / 9, // bisa diubah sesuai kebutuhan
+        viewMode: 1,
+        autoCropArea: 1,
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener('submit', function (e) {
+    if (cropper) {
+      e.preventDefault();
+
+      cropper.getCroppedCanvas({
+        width: 800,
+        height: 450,
+      }).toBlob(function (blob) {
         const reader = new FileReader();
-        reader.onload = function(event){
-            imagePreview.src = event.target.result;
-            imagePreview.style.display = 'block';
-
-            if(cropper) cropper.destroy();
-            cropper = new Cropper(imagePreview, {
-                aspectRatio: 1, // square
-                viewMode: 1
-            });
-        }
-        reader.readAsDataURL(file);
+        reader.onloadend = function () {
+          croppedImageInput.value = reader.result; // simpan base64 ke hidden input
+          form.submit(); // submit ulang setelah hidden input siap
+        };
+        reader.readAsDataURL(blob);
+      }, 'image/jpeg');
     }
-});
-
-  document.querySelector('form').addEventListener('submit', function(e){
-    e.preventDefault();
-    if(cropper){
-        cropper.getCroppedCanvas().toBlob((blob) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                croppedImageInput.value = reader.result;
-                e.target.submit();
-            };
-            reader.readAsDataURL(blob);
-        }, 'image/png');
-    }
-});
+  });
 </script>
+
 
 <script>
   const menuBtn = document.getElementById('menu-btn');
