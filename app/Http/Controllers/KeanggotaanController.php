@@ -65,7 +65,7 @@ if (!auth()->check() || auth()->user()->username !== 'fahdganteng') {
     public function edit($id)
     {
         $anggota = Keanggotaan::findOrFail($id);
-        return view('admin.formtambahanggota', compact('anggota'));
+        return view('admin.formTambahAnggota', compact('anggota'));
     }
 
     public function update(Request $request, $id)
