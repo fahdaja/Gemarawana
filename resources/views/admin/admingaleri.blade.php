@@ -67,9 +67,9 @@
   <!-- Input Gambar -->
   <div class="md:col-span-2">
     <label for="inputImage" class="block text-sm font-medium text-gray-700 mb-1">Pilih Gambar</label>
-    <input type="file" id="inputImage" accept="image/*" class="w-full border border-gray-300 rounded-md p-2 bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+    <input type="file" id="inputImage" name="foto" accept="image/*" class="w-full border border-gray-300 rounded-md p-2 bg-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
     <img id="imagePreview" class="hidden max-w-full rounded shadow border" alt="Preview Gambar">
-    <input type="hidden" name="image_path" id="croppedImage">
+    <input type="file" name="image_path" id="croppedImage">
   </div>
 
   <!-- Tombol Submit -->
@@ -118,55 +118,37 @@
   const croppedImageInput = document.getElementById('croppedImage');
   const form = document.getElementById('upload-form');
 
-  imageInput.addEventListener('change', function (e) {
+  inputImage.addEventListener('change', function (e) {
     const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      imagePreview.src = event.target.result;
-      imagePreview.classList.remove('hidden');
-
-      // Destroy cropper instance jika sudah ada
-      if (cropper) cropper.destroy();
-
-      // Inisialisasi cropper di gambar yang sudah muncul
-      cropper = new Cropper(imagePreview, {
-        aspectRatio: 16 / 9,       // Sesuaikan sesuai kebutuhan
-        viewMode: 1,
-        autoCropArea: 1,
-        movable: true,
-        zoomable: true,
-        rotatable: false,
-        scalable: false,
-        cropBoxResizable: true,
-      });
-    };
-    reader.readAsDataURL(file);
-  });
-
-  form.addEventListener('submit', function (e) {
-    // Jika cropper ada, cegah submit dulu, ambil hasil crop, lalu submit
-    if (cropper) {
-      e.preventDefault();
-
-      // Dapatkan canvas hasil crop dengan ukuran output yang diinginkan
-      const canvas = cropper.getCroppedCanvas({
-        width: 800,    // sesuaikan ukuran hasil crop
-        height: 450,
-      });
-
-      // Ubah canvas ke blob lalu ke base64, masukkan ke input hidden
-      canvas.toBlob(function (blob) {
+    if (file){
         const reader = new FileReader();
-        reader.onloadend = function () {
-          croppedImageInput.value = reader.result; // base64 image
-          form.submit();  // submit ulang form setelah isi hidden input siap
-        };
-        reader.readAsDataURL(blob);
-      });
+        reader.onload = function(event){
+            imagePreview.src = event.target.result;
+            imagePreview.style.display = 'block';
+
+            if(cropper) cropper.destroy();
+            cropper = new Cropper(imagePreview, {
+                aspectRatio: 1, // square
+                viewMode: 1
+            });
+        }
+        reader.readAsDataURL(file);
     }
-  });
+});
+
+  document.querySelector('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(cropper){
+        cropper.getCroppedCanvas().toBlob((blob) => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                croppedImageInput.value = reader.result;
+                e.target.submit();
+            };
+            reader.readAsDataURL(blob);
+        }, 'image/png');
+    }
+});
 </script>
 
 <script>
