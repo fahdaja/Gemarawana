@@ -66,7 +66,7 @@
         <h2 class="text-lg font-semibold">Anggota Muda</h2>
         @if (Auth::user() != null)
 
-      <a href="/formtambahanggota">
+      <a href="/formTambahAnggota">
         <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">+ Tambah</button>
       </a>
     @endif
