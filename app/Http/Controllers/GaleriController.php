@@ -42,20 +42,22 @@ class GaleriController extends Controller
         'judul' => 'required',
         'image_path' => 'required|image|mimes:jpeg,png,jpg,|max:5120',
     ], [
-        'foto.required' => 'Foto wajib diupload.',
-        'foto.image' => 'File harus berupa gambar.',
-        'foto.mimes' => 'Format file tidak didukung. Gunakan jpeg, png, jpg.',
-        'foto.max' => 'Ukuran foto maksimal 5MB.',
+        'image_path.required' => 'Foto wajib diupload.',
+        'image_path.image' => 'File harus berupa gambar.',
+        'image_path.mimes' => 'Format file tidak didukung. Gunakan jpeg, png, jpg.',
+        'image_path.max' => 'Ukuran foto maksimal 5MB.',
     ]);
 
-  $path = $request->file('image_path')->store('galeri', 'public');
 
-    Galery::create([
-        'judul' => $request->judul,
-        'image_path' => $path,
-    ]);
+$path = $request->file('image_path')->store('galeri', 'public');
 
-    return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil ditambahkan ke galeri.');
+// Simpan data galeri ke database
+Galery::create([
+    'judul' => $request->judul,
+    'image_path' => $path,
+]);
+
+return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil ditambahkan ke galeri.');
 }
 
     public function edit($id)
