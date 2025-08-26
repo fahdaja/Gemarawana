@@ -27,7 +27,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Halaman statis tanpa controller
-Route::view('/formtambahanggota', 'admin.formTambahAnggota')->name('admin.formtambahanggota');
+Route::view('/formtambahanggota', 'admin.formtambahanggota');
 Route::view('/rangkaiankegiatan', 'rangkaiankegiatan');
 Route::view('/formeditgaleri', 'admin.formeditgaleri');
 Route::view('/formtambahkegiatan', 'admin.adminkegiatan')->name('formtambahkegiatan');
