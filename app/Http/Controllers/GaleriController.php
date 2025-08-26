@@ -40,27 +40,24 @@ class GaleriController extends Controller
 {
     $request->validate([
         'judul' => 'required',
-        'image_path' => 'required|string',
+        'image_path' => 'required|image|mimes:jpeg,png,jpg,heic|max:5120',
     ]);
 
-    $base64Image = $request->input('image_path');
+    $file = $request->file('image_path');
+    $ext = strtolower($file->getClientOriginalExtension());
 
-    // Extract base64 string tanpa prefix "data:image/jpeg;base64,"
-    if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
-        $image = substr($base64Image, strpos($base64Image, ',') + 1);
-        $image = str_replace(' ', '+', $image);
-        $type = strtolower($type[1]); // jpg, png, dll
+   if ($ext === 'heic') {
+    $imagick = new \Imagick();
+    $imagick->readImage($file->getPathname());
+    $imagick->setImageFormat('png');
 
-        if (!in_array($type, ['jpg', 'jpeg', 'png'])) {
-            return back()->withErrors(['image_path' => 'Format gambar tidak didukung.']);
-        }
-
-         $imageName = 'galeri/' . Str::random(10) . '.' . $type;
-       Storage::disk('public')->put($imageName, base64_decode($image));
-} else {
-    return back()->withErrors(['image_path' => 'Gambar tidak valid.']);
-}
-
+     $imageName = 'galeri/' . Str::random(10) . '.png';
+        Storage::disk('public')->put($imageName, $imagick->getImageBlob());
+    } else {
+        // Simpan langsung jika bukan HEIC
+        $imageName = $file->store('galeri', 'public');
+    } 
+    
     Galery::create([
         'judul' => $request->judul,
         'image_path' => $imageName,
