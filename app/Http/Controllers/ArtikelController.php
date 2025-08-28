@@ -60,34 +60,23 @@ class ArtikelController extends Controller
         $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
-            'image_path' => 'required|string',
+            'image_path' => 'required|image|mimes:jpg,jpeg,png|max:5120',
             'lokasi' => 'required|string',
             'provinsi_id' => 'required|exists:provinsi,id',
             'kota_id' => 'required|exists:kota,id',
+        ], [
+            'image_path.required' => 'Foto wajib diupload.',
+            'image_path.image' => 'File harus berupa gambar.',
+            'image_path.mimes' => 'Format file tidak didukung. Gunakan jpeg, png, jpg.',
+            'image_path.max' => 'Ukuran foto maksimal 5MB.',
         ]);
 
-        $base64Image = $request->input('image_path');
-
-// Pastikan format base64 valid
-if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
-    $image = substr($base64Image, strpos($base64Image, ',') + 1);
-    $image = str_replace(' ', '+', $image);
-    $extension = strtolower($type[1]); // jpeg, png, jpg
-
-    if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
-        return back()->withErrors(['image_path' => 'Format gambar tidak didukung.']);
-    }
-
-    $imageName = 'artikel/' . Str::random(10) . '.' . $extension;
-    Storage::disk('public')->put($imageName, base64_decode($image));
-} else {
-    return back()->withErrors(['image_path' => 'Gambar tidak valid.']);
-}
+        $path = $request->file('image_path')->store('artikel', 'public');
 
         Artikel::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'image_path' => $imageName,
+            'image_path' => $path,
             'lokasi' => $request->lokasi,
             'provinsi_id' => $request->provinsi_id,
             'kota_id' => $request->kota_id,
@@ -111,7 +100,7 @@ if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
         'deskripsi' => 'required|string',
         'provinsi_id' => 'required|exists:provinsi,id',
         'kota_id' => 'required|exists:kota,id',
-        'image_path' => 'nullable|image|max:2048',
+        'image_path' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         'lokasi' => 'required|string',
         ]);
 
@@ -122,6 +111,7 @@ if (preg_match('/^data:image\/(\w+);base64,/', $base64Image, $type)) {
         $artikel->provinsi_id = $request->provinsi_id;
         $artikel->kota_id = $request->kota_id;
         $artikel->lokasi = $request->lokasi;
+        
 
         if ($request->hasFile('image_path')) {
         // Hapus gambar lama jika ada

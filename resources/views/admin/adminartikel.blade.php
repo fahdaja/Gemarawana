@@ -72,9 +72,9 @@
 
           <div>
             <label class="block text-sm font-medium mb-1">Upload Gambar</label>
-              <input type="file" id="imageInput" accept="image/*" class="w-full border rounded p-2" />
-               <img id="previewImage" src="" class="mt-4 max-w-xs hidden rounded shadow" />
-               <input type="hidden" name="image_path" id="croppedImage">
+              <input type="file" id="image_path" name="image_path" accept="image/*" class="w-full border rounded p-2" />
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPEG, PNG, JPG (Max 5Mb).</p>
+              <input type="hidden" name="cropped_image" id="cropped_image">
           </div>
 
           <div>
@@ -207,54 +207,43 @@
   </script>
 
   <script>
-let cropper;
-const imageInput = document.getElementById('imageInput');
-const previewImage = document.getElementById('previewImage');
-const croppedImageInput = document.getElementById('croppedImage');
-const form = document.getElementById('artikelForm');
+  let cropper;
+  const fileInput = document.getElementById('image_path');
+  const croppedInput = document.getElementById('cropped_image');
 
-imageInput.addEventListener('change', function (e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  // 1. Ketika pilih gambar
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    previewImage.src = event.target.result;
-    previewImage.classList.remove('hidden');
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Buat img element baru untuk cropper
+      let img = document.createElement('img');
+      img.id = 'image';
+      img.src = e.target.result;
+      img.style.maxWidth = '100%';
 
-    if (cropper) cropper.destroy();
+      // Hapus cropper lama kalau ada
+      const oldImage = document.getElementById('image');
+      if (oldImage) oldImage.remove();
 
-    cropper = new Cropper(previewImage, {
-      aspectRatio: 16 / 9,
-      viewMode: 1,
-      autoCropArea: 1,
-    });
-  };
-  reader.readAsDataURL(file);
-});
+      fileInput.insertAdjacentElement('afterend', img);
 
-form.addEventListener('submit', function (e) {
-  // Jika cropper ada, cegah submit dulu, ambil hasil crop, lalu submit
-  if (cropper) {
-    e.preventDefault(); // Tahan dulu
-
-    const canvas = cropper.getCroppedCanvas({
-      width: 800,
-      height: 450,
-    });
-
-    canvas.toBlob(function (blob) {
-      const reader = new FileReader();
-      reader.onloadend = function () {
-        croppedImageInput.value = reader.result;
-        form.submit(); // Submit ulang setelah siap
-      };
-      reader.readAsDataURL(blob);
-    });
-  }
-});
-</script>
-
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(img, {
+       viewMode: 1,  
+        responsive: true,
+        viewMode: 1,
+        autoCropArea: 1,
+      });
+    };
+    reader.readAsDataURL(file);
+    // masukkan hasil crop ke hidden input (base64)
+    croppedInput.value = canvas.toDataURL('image/png');
+  });
+  </script>
+  
 <script>
   const menuBtn = document.getElementById('menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');

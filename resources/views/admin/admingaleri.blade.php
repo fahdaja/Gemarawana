@@ -50,12 +50,11 @@
       <input name="judul" id="judul" type="text" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh : Pendidikan Dasar 2023" required>
     </div>
     <div class="md:col-span-2">
-    
-<label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image_path">Upload file</label>
-<input class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-describedby="file_input_help" id="image" type="file" name="image_path">
-<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPEG, PNG, JPG (Max 5Mb).</p>
-
-    </div>
+    <div><label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image_path">Upload Gambar</label>
+<input class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" aria-describedby="file_input_help" id="image_path" type="file" name="image_path">
+<p class="mt-2 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPEG, PNG, JPG (Max 5Mb).</p></div>
+  <input type="hidden" name="cropped_image" id="cropped_image">
+</div>
     <div class="md:col-span-2 text-center mt-6">
       <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md">+ Tambah</button>
     </div>
@@ -73,12 +72,13 @@
       <div class="p-2">
         <p class="text-sm font-medium">{{ $item->judul }}</p>
       </div>
-      <div class="absolute top-2 right-2 space-x-1">
+
+      <div class="absolute top-2 right-2 inline-flex space-x-1">
         <a href="{{ route('admin.galeri.edit', $item->id) }}" class="bg-blue-500 text-white text-xs px-2 py-1 rounded hover:bg-blue-600">Edit</a>
-        <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST" class="inline">
+        <form action="{{ route('admin.galeri.destroy', $item->id) }}" method="POST"  onsubmit="return confirm('Yakin ingin menghapus galeri ini?');">
           @csrf
           @method('DELETE')
-          <button class="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600">Hapus</button>
+          <button type="submit" class="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600">Hapus</button>
         </form>
       </div>
     </div>
@@ -87,13 +87,49 @@
 </section>
 @endif
 </main>
-
 <script>
   const menuBtn = document.getElementById('menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   menuBtn.addEventListener('click', () => {
     mobileMenu.classList.toggle('hidden');
   });
+</script>
+<script>let cropper;
+  const fileInput = document.getElementById('image_path');
+  const croppedInput = document.getElementById('cropped_image');
+
+  // 1. Ketika pilih gambar
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Buat img element baru untuk cropper
+      let img = document.createElement('img');
+      img.id = 'image';
+      img.src = e.target.result;
+      img.style.maxWidth = '100%';
+
+      // Hapus cropper lama kalau ada
+      const oldImage = document.getElementById('image');
+      if (oldImage) oldImage.remove();
+
+      fileInput.insertAdjacentElement('afterend', img);
+
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(img, {
+       viewMode: 1,  
+        responsive: true,
+        viewMode: 1,
+        autoCropArea: 1,
+      });
+    };
+    reader.readAsDataURL(file);
+    // masukkan hasil crop ke hidden input (base64)
+    croppedInput.value = canvas.toDataURL('image/png');
+  });
+
 </script>
 </body>
 </html>

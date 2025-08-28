@@ -41,7 +41,7 @@ class GaleriController extends Controller
     $request->validate([
         'judul' => 'required',
         'image_path' => 'required|image|mimes:jpeg,png,jpg,|max:5120',
-    ], [
+    ],  [
         'image_path.required' => 'Foto wajib diupload.',
         'image_path.image' => 'File harus berupa gambar.',
         'image_path.mimes' => 'Format file tidak didukung. Gunakan jpeg, png, jpg.',
@@ -70,6 +70,7 @@ return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil d
     {
         $request->validate([
             'judul' => 'required',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         $galeri = Galery::findOrFail($id);

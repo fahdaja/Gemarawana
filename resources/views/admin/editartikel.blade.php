@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Artikel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
     
@@ -39,10 +41,14 @@
             </div>
 
             <div>
-                <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
+                <div><label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Upload Gambar</label>
                 <input type="file" id="image_path" name="image_path"
-                       class="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer focus:outline-none" />
+                       class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                       <p class="mt-2 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPEG, PNG, JPG (Max 5Mb).</p>
+                <input type="hidden" name="cropped_image" id="cropped_image">
+                </div>
                 @if($artikel->image_path)
+                <label class="block text-sm font-medium text-gray-700 mt-5">Gambar Saat Ini</label>
                     <img src="{{ asset('storage/' . $artikel->image_path) }}" alt="Gambar Artikel"
                          class="mt-4 w-48 h-auto rounded-md shadow">
                 @endif
@@ -81,7 +87,7 @@
             <div class="flex items-center justify-start space-x-4 pt-4">
                 <button type="submit"
                         class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    Update Artikel
+                    Simpan Perubahan
                 </button>
             </div>
         </form>
@@ -130,6 +136,42 @@
         updateLokasi();
     });
     </script>
+    <script>let cropper;
+  const fileInput = document.getElementById('image_path');
+  const croppedInput = document.getElementById('cropped_image');
+
+  // 1. Ketika pilih gambar
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Buat img element baru untuk cropper
+      let img = document.createElement('img');
+      img.id = 'image';
+      img.src = e.target.result;
+      img.style.maxWidth = '100%';
+
+      // Hapus cropper lama kalau ada
+      const oldImage = document.getElementById('image');
+      if (oldImage) oldImage.remove();
+
+      fileInput.insertAdjacentElement('afterend', img);
+
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(img, {
+       viewMode: 1,  
+        responsive: true,
+        viewMode: 1,
+        autoCropArea: 1,
+      });
+    };
+    reader.readAsDataURL(file);
+    // masukkan hasil crop ke hidden input (base64)
+    croppedInput.value = canvas.toDataURL('image/png');
+  });
+</script>
 
 </body>
 </html>

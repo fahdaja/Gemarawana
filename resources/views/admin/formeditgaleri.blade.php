@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Galeri</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -39,9 +41,12 @@
 
                 <!-- Upload Gambar -->
                 <div>
-                    <label for="image_path" class="block text-lg font-medium text-gray-700">Upload Gambar</label>
+                    <div><label for="image_path" class="block text-lg font-medium text-gray-700">Upload Gambar</label>
                     <input name="image_path" id="image_path" type="file"
                         class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">JPEG, PNG, JPG (Max 5Mb).</p>
+                         <input type="hidden" name="cropped_image" id="cropped_image">
+                        </div>
                     @if($galeri->image_path)
                         <div class="mt-4">
                             <label class="block text-sm font-medium text-gray-700">Gambar Saat Ini</label>
@@ -60,6 +65,42 @@
         </form>
     </div>
 
+<script>let cropper;
+  const fileInput = document.getElementById('image_path');
+  const croppedInput = document.getElementById('cropped_image');
+
+  // 1. Ketika pilih gambar
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Buat img element baru untuk cropper
+      let img = document.createElement('img');
+      img.id = 'image';
+      img.src = e.target.result;
+      img.style.maxWidth = '100%';
+
+      // Hapus cropper lama kalau ada
+      const oldImage = document.getElementById('image');
+      if (oldImage) oldImage.remove();
+
+      fileInput.insertAdjacentElement('afterend', img);
+
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(img, {
+       viewMode: 1,  
+        responsive: true,
+        viewMode: 1,
+        autoCropArea: 1,
+      });
+    };
+    reader.readAsDataURL(file);
+    // masukkan hasil crop ke hidden input (base64)
+    croppedInput.value = canvas.toDataURL('image/png');
+  });
+</script>
 </body>
 
 </html>
