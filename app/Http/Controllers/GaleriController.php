@@ -75,6 +75,7 @@ return redirect()->route('admin.galeri.index')->with('success', 'Foto berhasil d
 
         $galeri = Galery::findOrFail($id);
         $data = ['judul' => $request->judul];
+        $data = ['image_path' => $request->image_path];
 
         if ($request->hasFile('image_path')) {
             $path = $request->file('image_path')->store('galeri', 'public');
